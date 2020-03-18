@@ -121,11 +121,13 @@
     </Compile>
     <Compile Include="AttributeValue.cs" />
     <Compile Include="BindableBase.cs" />
+    <Compile Include="CommandHandler.cs" />
     <Compile Include="EnumConverter.cs" />
     <Compile Include="EnumExtension.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MainPageViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="TimeSpanConverter.cs" />

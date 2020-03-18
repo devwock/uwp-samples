@@ -29,39 +29,39 @@
             <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto" Padding="40">
                 <StackPanel>
                     <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="String" />
-                    <TextBox Margin="0,10,0,0" Text="{x:Bind settings.TestString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox Margin="0,10,0,0" Text="{x:Bind viewModel.TestString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock Margin="0,10,0,0">
                         <Run Text="저장된 값: " />
-                        <Run Text="{x:Bind settings.TestString, Mode=OneWay}" />
+                        <Run Text="{x:Bind viewModel.TestString, Mode=OneWay}" />
                     </TextBlock>
 
-                    <TextBlock Style="{StaticResource TitleTextBlockStyle}" Margin="0,40,0,0" Text="Object/Struct (TimeSpan)" />
+                    <TextBlock Style="{StaticResource TitleTextBlockStyle}" Margin="0,40,0,0" Text="Struct (TimeSpan)" />
                     <TextBlock Margin="0,10,0,0" Text="업데이트 트리거는 LostFocus입니다. 시분초가 범위를 넘어갈 경우 나머지가 반영됩니다." />
-                    <TextBox Margin="0,10,0,0" HorizontalAlignment="Left" Text="{x:Bind settings.TestStruct, Converter={StaticResource TimeSpanConverter}, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="300" />
+                    <TextBox Margin="0,10,0,0" HorizontalAlignment="Left" Text="{x:Bind viewModel.TestStruct, Converter={StaticResource TimeSpanConverter}, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="300" />
                     <TextBlock Margin="0,10,0,0">
                         <Run Text="저장된 값: " />
-                        <Run Text="{x:Bind settings.TestStruct, Converter={StaticResource TimeSpanConverter}, Mode=OneWay}" />
+                        <Run Text="{x:Bind viewModel.TestStruct, Converter={StaticResource TimeSpanConverter}, Mode=OneWay}" />
                     </TextBlock>
 
                     <TextBlock Style="{StaticResource TitleTextBlockStyle}" Margin="0,40,0,0" Text="Enum" />
                     <TextBlock Margin="0,10,0,0" Text="Enum 오브젝트를 저장할 수 없기 때문에 AttributeValue를 저장합니다." />
-                    <ComboBox Margin="0,10,0,0" ItemsSource="{x:Bind settings.TestEnumList}" SelectedItem="{x:Bind settings.TestEnum, Mode=TwoWay}" />
+                    <ComboBox Margin="0,10,0,0" ItemsSource="{x:Bind viewModel.TestEnumList}" SelectedItem="{x:Bind viewModel.TestEnum, Mode=TwoWay}" />
                     <TextBlock Margin="0,10,0,0">
                         <Run Text="저장된 값: " />
-                        <Run Text="{x:Bind settings.TestEnum, Mode=OneWay, Converter={StaticResource EnumConverter}}" />
+                        <Run Text="{x:Bind viewModel.TestEnum, Mode=OneWay, Converter={StaticResource EnumConverter}}" />
                     </TextBlock>
 
                     <TextBlock Style="{StaticResource TitleTextBlockStyle}" Margin="0,40,0,0" Text="ObservableList&lt;string&gt;" />
                     <TextBlock Margin="0,10,0,0" Text="ObservableList 오브젝트를 저장할 수 없기 때문에 JSON으로 Serialize 합니다." />
                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                        <TextBox x:Name="ListText" Width="200" PlaceholderText="리스트에 추가할 내용" />
-                        <Button x:Name="ListAddBtn" Margin="20,0,0,0" Width="200" Content="추가" Click="ListAddBtn_Click" />
-                        <Button x:Name="ListDelBtn" Margin="20,0,0,0" Width="200" Content="제거" Click="ListDelBtn_Click" />
+                        <TextBox x:Name="ListText" Width="200" PlaceholderText="리스트에 추가할 내용" Text="{x:Bind viewModel.ListText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <Button x:Name="ListAddBtn" Margin="20,0,0,0" Width="200" Content="추가" Command="{x:Bind viewModel.ListAddCmd}" />
+                        <Button x:Name="ListDelBtn" Margin="20,0,0,0" Width="200" Content="제거" Command="{x:Bind viewModel.ListDelCmd}" />
                     </StackPanel>
-                    <ListBox x:Name="TestList" Margin="0,10,0,0" ItemsSource="{x:Bind settings.TestList}" Height="200" SelectionMode="Single" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollMode="Auto" />
+                    <ListBox x:Name="TestList" Margin="0,10,0,0" ItemsSource="{x:Bind viewModel.TestList}" SelectedIndex="{x:Bind viewModel.SelectedIdx, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="200" SelectionMode="Single" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollMode="Auto" />
                     <TextBlock Margin="0,10,0,0" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollMode="Auto" TextWrapping="WrapWholeWords">
                             <Run Text="Serialized 된 값: " />
-                            <Run Text="{x:Bind settings.SerializedList, Mode=OneWay}" />
+                            <Run Text="{x:Bind viewModel.SerializedList, Mode=OneWay}" />
                     </TextBlock>
 
                     <TextBlock Margin="0,40,0,0" Style="{StaticResource TitleTextBlockStyle}" Text="Storage" />
@@ -73,9 +73,9 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Margin="0,10,0,0" TextWrapping="Wrap">
                             <Run Text="저장된 경로: " />
-                            <Run Text="{x:Bind settings.TestLocalFolder.Path, Mode=OneWay}" />
+                            <Run Text="{x:Bind viewModel.TestLocalFolder.Path, Mode=OneWay}" />
                         </TextBlock>
-                        <Button x:Name="FolderSelectBtn" Width="200" Margin="20,0,0,0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Content="폴더지정" Click="FolderSelectBtn_Click" />
+                        <Button x:Name="FolderSelectBtn" Width="200" Margin="20,0,0,0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Content="폴더지정" Command="{x:Bind viewModel.FolderSelectCmd}" />
                     </Grid>
                 </StackPanel>
             </ScrollViewer>

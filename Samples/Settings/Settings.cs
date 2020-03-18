@@ -9,7 +9,7 @@ using Windows.Storage;
 
 namespace Settings
 {
-    public class Settings : BindableBase
+    public class Settings
     {
         // https://docs.microsoft.com/en-us/uwp/api/Windows.Storage.ApplicationData
         private static readonly Lazy<Settings> instance = new Lazy<Settings>(() => new Settings());
@@ -30,7 +30,7 @@ namespace Settings
             set
             {
                 localSettings.Values["TestString"] = value;
-                SetProperty(ref testString, value);
+                testString = value;
             }
         }
 
@@ -50,17 +50,8 @@ namespace Settings
             get => testEnum;
             set
             {
-                System.Diagnostics.Debug.WriteLine("TEST");
                 localSettings.Values["TestEnum"] = value.GetAttributeValue<AttributeValue>();
-                SetProperty(ref testEnum, value);
-            }
-        }
-
-        public List<Mode> TestEnumList
-        {
-            get
-            {
-                return Enum.GetValues(typeof(Mode)).Cast<Mode>().ToList();
+                testEnum = value;
             }
         }
 
@@ -71,16 +62,9 @@ namespace Settings
             get => serializedList;
             set
             {
-                SetProperty(ref serializedList, value);
+                serializedList = value;
+                localSettings.Values["TestList"] = value;
             }
-        }
-
-        private ObservableCollection<string> testList;
-
-        public ObservableCollection<string> TestList
-        {
-            get => testList;
-            set => SetProperty(ref testList, value);
         }
 
         private TimeSpan testStruct;
@@ -91,7 +75,7 @@ namespace Settings
             set
             {
                 localSettings.Values["TestStruct"] = value;
-                SetProperty(ref testStruct, value);
+                testStruct = value;
             }
         }
 
@@ -103,7 +87,7 @@ namespace Settings
             set
             {
                 Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.AddOrReplace("TestLocalFolder", value);
-                SetProperty(ref testLocalFolder, value);
+                testLocalFolder = value;
             }
         }
 
@@ -112,17 +96,6 @@ namespace Settings
             testString = localSettings.Values["testString"] as string;
             testEnum = localSettings.Values["TestEnum"] != null ? EnumExtension.GetEnumFromAttribute<Mode>(localSettings.Values["TestEnum"] as string) : Mode.Test1;
             serializedList = localSettings.Values["TestList"] as string;
-
-            if (!string.IsNullOrWhiteSpace(serializedList))
-            {
-                testList = JsonConvert.DeserializeObject<ObservableCollection<string>>(serializedList);
-            }
-            else
-            {
-                testList = new ObservableCollection<string>();
-            }
-            TestList.CollectionChanged += TestList_CollectionChanged;
-
             testStruct = localSettings.Values["TestStruct"] != null ? (TimeSpan)localSettings.Values["TestStruct"] : new TimeSpan(0, 0, 0);
             try
             {
@@ -132,12 +105,6 @@ namespace Settings
             {
                 testLocalFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("TestFolder", CreationCollisionOption.OpenIfExists);
             }
-        }
-
-        private void TestList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            SerializedList = JsonConvert.SerializeObject(testList);
-            localSettings.Values["TestList"] = SerializedList;
         }
     }
 }

@@ -24,41 +24,12 @@ namespace Settings
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private Settings settings { get; set; }
+        private MainPageViewModel viewModel { get; set; }
 
         public MainPage()
         {
             this.InitializeComponent();
-            settings = Settings.Instance;
-        }
-
-        private async void FolderSelectBtn_Click(object sender, RoutedEventArgs e)
-        {
-            var button = sender as Button;
-            var folderPicker = new FolderPicker();
-            folderPicker.SuggestedStartLocation = PickerLocationId.ComputerFolder;
-            folderPicker.FileTypeFilter.Add("*");
-            StorageFolder folder = await folderPicker.PickSingleFolderAsync();
-            if (folder != null)
-            {
-                Settings.Instance.TestLocalFolder = folder;
-            }
-        }
-
-        private void ListAddBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(ListText.Text))
-            {
-                Settings.Instance.TestList.Add(ListText.Text);
-            }
-        }
-
-        private void ListDelBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (TestList.SelectedIndex >= 0)
-            {
-                Settings.Instance.TestList.RemoveAt(TestList.SelectedIndex);
-            }
+            viewModel = new MainPageViewModel();
         }
     }
 }
