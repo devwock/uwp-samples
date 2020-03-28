@@ -4,4 +4,4 @@
 
 [BindableBase](https://github.com/PrismLibrary/Prism/blob/master/Source/Prism/Mvvm/BindableBase.cs)는 [Prism 프레임워크](https://github.com/PrismLibrary/Prism)에서 소개되었다.
 
-[상세 설명](https://devwock.github.io/)
+[관련 포스팅](https://devwock.github.io/)

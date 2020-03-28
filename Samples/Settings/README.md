@@ -4,4 +4,4 @@
 
 안드로이드의 [SharedPreferences](https://developer.android.com/reference/android/content/SharedPreferences)와 비슷한 역할을 한다.
 
-[상세 설명](https://devwock.github.io/)
+[관련 포스팅](https://devwock.github.io/)
